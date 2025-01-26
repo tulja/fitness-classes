@@ -154,7 +154,7 @@ curl localhost:9090/bookings \
 Output 
 ```
 {
-    "id": "3",
+    "id": "1",
     "class_name": "Yoga",
     "date": "02-02-2025",
     "booking_name": "abc"
@@ -175,7 +175,7 @@ Output
         "booking_name": "tbd12"
     },
     {
-        "id": "3",
+        "id": "1",
         "class_name": "Yoga",
         "date": "02-02-2025",
         "booking_name": "abc"
@@ -195,7 +195,7 @@ Output
     "id": "1",
     "class_name": "Yoga",
     "booking_name": "abc",
-    "date": "01-02-2025",
+    "date": "02-02-2025",
 }
 ```
 
