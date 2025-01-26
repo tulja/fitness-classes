@@ -47,7 +47,7 @@ Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-
 
 ## Usage
 
-### Creating new class
+### Create new class
 ```
 curl localhost:9090/classes \
 --header 'Content-Type: application/json' \
@@ -65,7 +65,7 @@ Output
 }
 ```
 
-### Listing all classes 
+### List all classes 
 ```
 curl localhost:9090/classes
 ```
@@ -130,7 +130,7 @@ Output
 }
 ```
 
-### Deleting Class
+### Delete Class
 
 Requires id of class. Below example uses 1 as id
 ```
@@ -141,3 +141,88 @@ Output
 ```
 "Deleted id 1 Successfully!"
 ```
+
+
+
+### Create new booking 
+```
+curl localhost:9090/bookings \
+--header 'Content-Type: application/json' \
+--data '{"booking_name":"abc","class_name":"Yoga","date":"02-02-2025"}'
+```
+
+Output 
+```
+{
+    "id": "3",
+    "class_name": "Yoga",
+    "date": "02-02-2025",
+    "booking_name": "abc"
+}
+```
+
+### List all bookings
+```
+curl localhost:9090/bookings
+```
+Output
+```
+[
+    {
+        "id": "2",
+        "class_name": "Yoga",
+        "date": "02-02-2025",
+        "booking_name": "tbd12"
+    },
+    {
+        "id": "3",
+        "class_name": "Yoga",
+        "date": "02-02-2025",
+        "booking_name": "abc"
+    }
+]
+```
+
+### Get booking by Id 
+Below example uses 1 as id
+```
+ curl localhost:9090/bookings/1
+```
+
+Output
+```
+{
+    "id": "1",
+    "class_name": "Yoga",
+    "booking_name": "abc",
+    "date": "01-02-2025",
+}
+```
+
+### Get booking by booking_name
+Below example uses "xyz" as booking_name
+```
+curl localhost:9090/bookings/info/xyz
+```
+Output
+```
+{
+    "id": "2",
+    "class_name": "Yoga",
+    "booking_name": "xyz",
+    "date": "02-02-2025",
+}
+```
+
+### Delete Booking
+
+Requires id of booking. Below example uses 1 as id
+```
+curl --request DELETE localhost:9090/bookings/1
+```
+
+Output
+```
+"Deleted booking id 1 Successfully!"
+```
+
