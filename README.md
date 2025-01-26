@@ -226,3 +226,8 @@ Output
 "Deleted booking id 1 Successfully!"
 ```
 
+## Testing
+
+### Tools
+Postman, cURL
+
