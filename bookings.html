@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .Booking-List {
+            margin-top: 20px;
+        }
+        .Class {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bookings API</h1>
+    
+    <h3>Create a New Booking</h3>
+    <form id="createBookingForm">
+        <label for="class_name">Class Name:</label>
+        <input type="text" id="class_name" name="class_name" required><br>
+        <label for="booking_name">Booking Name:</label>
+        <input type="text" id="booking_name" name="booking_name" required><br>
+        <label for="date">Date</label>
+        <input type="text" id="date" name="date" required><br>
+        <button type="submit">Create Booking</button>
+    </form>
+    
+    <h3>Delete a Booking</h3>
+    <label for="deleteId">Booking ID to delete:</label>
+    <input type="text" id="deleteId">
+    <button onclick="deleteBooking()">Delete Booking</button>
+
+    <h3>Bookings List</h3>
+    <button onclick="listBookings()">Load Bookings</button>
+    
+    <div class="Booking-List" id="BookingList"></div>
+
+    <script>
+        const apiUrl = 'http://localhost:9090/bookings';
+
+        // List all Bookings
+        function listBookings() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const BookingList = document.getElementById('BookingList');
+                    BookingList.innerHTML = '';  // Clear existing list
+                    if (data.length === 0) {
+                        BookingList.innerHTML = 'No Bookings found.';
+                    } else {
+                        data.forEach(Booking => {
+                            const BookingDiv = document.createElement('div');
+                            BookingDiv.classList.add('Class');
+                            BookingDiv.innerHTML = `ID: ${Booking.id}, Class Name: ${Booking.class_name}, Booking Name: ${Booking.booking_name}, Date: ${Booking.date}`;
+                            BookingList.appendChild(BookingDiv);
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert('Error fetching Bookings.');
+                    console.error(error);
+                });
+        }
+
+        // Create a new Booking
+        document.getElementById('createBookingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const newBooking = {
+                class_name: document.getElementById('class_name').value,
+                booking_name: document.getElementById('booking_name').value,
+                date: document.getElementById('date').value
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newBooking)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Booking created successfully');
+                listBookings(); // Refresh the list of Bookings
+                document.getElementById('createBookingForm').reset(); // Clear form
+            })
+            .catch(error => {
+                alert('Error creating Booking.');
+                console.error(error);
+            });
+        });
+
+        // Delete an Booking by ID
+        function deleteBooking() {
+            const BookingId = document.getElementById('deleteId').value;
+            if (!BookingId) {
+                alert('Please provide an Booking ID to delete.');
+                return;
+            }
+
+            fetch(`${apiUrl}/${BookingId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    alert('Booking deleted successfully');
+                    listBookings(); // Refresh the list of Bookings
+                } else {
+                    alert('Booking not found or error deleting.');
+                }
+            })
+            .catch(error => {
+                alert('Error deleting Booking.');
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>

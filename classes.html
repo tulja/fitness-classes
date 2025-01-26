@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .Class-list {
+            margin-top: 20px;
+        }
+        .Class {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Class API</h1>
+    
+    <h3>Create a New Class</h3>
+    <form id="createClassForm">
+        <label for="class_name">Class Name:</label>
+        <input type="text" id="class_name" name="class_name" required><br>
+        <label for="start_date">Start Date</label>
+        <input type="text" id="start_date" name="start_date" required><br>
+        <label for="end_date">End Date:</label>
+        <input type="text" id="end_date" name="end_date" required><br>
+        <label for="capacity">Capacity:</label>
+        <input type="number" step="0.01" id="capacity" name="capacity" required><br><br>
+        <button type="submit">Create Class</button>
+    </form>
+    
+    <h3>Delete an Class</h3>
+    <label for="deleteId">Class ID to delete:</label>
+    <input type="text" id="deleteId">
+    <button onclick="deleteClass()">Delete Class</button>
+
+    <h3>Classs List</h3>
+    <button onclick="listClasss()">Load Classs</button>
+    
+    <div class="Class-list" id="ClassList"></div>
+
+    <script>
+        const apiUrl = 'http://localhost:9090/classes';
+
+        // List all Classs
+        function listClasss() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const ClassList = document.getElementById('ClassList');
+                    ClassList.innerHTML = '';  // Clear existing list
+                    if (data.length === 0) {
+                        ClassList.innerHTML = 'No Classs found.';
+                    } else {
+                        data.forEach(Class => {
+                            const ClassDiv = document.createElement('div');
+                            ClassDiv.classList.add('Class');
+                            ClassDiv.innerHTML = `ID: ${Class.id}, Class Name: ${Class.class_name}, Start Date: ${Class.start_date},End Date: ${Class.end_date}, Capacity: ${Class.capacity}`;
+                            ClassList.appendChild(ClassDiv);
+                        });
+                    }
+                })
+                .catch(error => {
+                    alert('Error fetching Classs.');
+                    console.error(error);
+                });
+        }
+
+        // Create a new Class
+        document.getElementById('createClassForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const newClass = {
+                class_name: document.getElementById('class_name').value,
+                start_date: document.getElementById('start_date').value,
+                end_date: document.getElementById('end_date').value,
+                capacity: parseFloat(document.getElementById('capacity').value)
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newClass)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Class created successfully');
+                listClasss(); // Refresh the list of Classs
+                document.getElementById('createClassForm').reset(); // Clear form
+            })
+            .catch(error => {
+                alert('Error creating Class.');
+                console.error(error);
+            });
+        });
+
+        // Delete an Class by ID
+        function deleteClass() {
+            const ClassId = document.getElementById('deleteId').value;
+            if (!ClassId) {
+                alert('Please provide an Class ID to delete.');
+                return;
+            }
+
+            fetch(`${apiUrl}/${ClassId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    alert('Class deleted successfully');
+                    listClasss(); // Refresh the list of Classs
+                } else {
+                    alert('Class not found or error deleting.');
+                }
+            })
+            .catch(error => {
+                alert('Error deleting Class.');
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+</html>
