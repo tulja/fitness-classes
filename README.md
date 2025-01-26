@@ -45,7 +45,7 @@ Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-
 ```
 
 
-## Usage
+## API Usage
 
 ### Create new class
 ```
@@ -228,6 +228,21 @@ Output
 
 ## Testing
 
+
+
 ### Tools
 Postman, cURL
+
+## End User Usage
+Open index.html, for managing classes click Classes, and for managing booking click on Bookings
+
+![image](https://github.com/user-attachments/assets/9a5e4a0b-d0b0-4749-9a48-8481d2f80721)
+
+Classes
+![image](https://github.com/user-attachments/assets/a6331599-2376-4135-a0b6-8f9ac39b0d63)
+
+
+Bookings
+![image](https://github.com/user-attachments/assets/7a324d4c-10fd-4b9d-b2ba-790303914b01)
+
 
