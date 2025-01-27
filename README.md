@@ -1,7 +1,8 @@
 # fitness-classes
 
 ## Architecture
-![image](https://github.com/user-attachments/assets/ff6a619c-8a37-4174-b7a9-1db9ee47fdf1)
+![image](https://github.com/user-attachments/assets/d1661bdc-0bb3-4906-9e01-6f596fbfd77d)
+
 
 ![image](https://github.com/user-attachments/assets/dbc00c53-68b4-4d6d-83c8-e626ecb56a30)
 
